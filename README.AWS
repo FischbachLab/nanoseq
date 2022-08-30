@@ -1,0 +1,20 @@
+Hello world script
+====================
+
+A simple test script showing the nanoseq pipeline for the Nextflow framework on aws.
+
+
+
+```{bash}
+aws batch submit-job \
+    --job-name nf-nanoseq-gpu \
+    --job-queue priority-maf-pipelines \
+    --job-definition nextflow-production \
+    --container-overrides command="s3://nextflow-pipelines/nf-nanoseq, \
+"-profile", "test,docker", \
+"--guppy_gpu", \
+"--guppy_cpu_threads", "1", \
+"--guppy_gpu_runners","6", \
+"--gpu_device","auto", \
+"--outdir","s3://genomics-workflow-core/Results/Nanoseq/test-gpu" "
+```

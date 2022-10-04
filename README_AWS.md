@@ -4,7 +4,7 @@ Hello world script
 A simple test script showing the nanoseq pipeline for the Nextflow framework on aws.
 
 
-# Test
+# Default test job with GPU
 ```{bash}
 aws batch submit-job \
     --job-name nf-nanoseq-gpu-test \
@@ -19,7 +19,7 @@ aws batch submit-job \
 "--outdir","s3://genomics-workflow-core/Results/Nanoseq/test-gpu" "
 ```
 
-# Using MITI profile
+# Using MITI profile with GPU
 ```{bash}
 aws batch submit-job \
     --job-name nf-nanoseq-gpu-MITI \
@@ -32,7 +32,7 @@ aws batch submit-job \
 "--outdir","s3://genomics-workflow-core/Results/Nanoseq/run1-gpu" "
 ```
 
-# Real datasets
+# Full options with GPU
 ```{bash}
 aws batch submit-job \
     --job-name nf-nanoseq-gpu \
@@ -58,4 +58,31 @@ aws batch submit-job \
 "--input", "s3://genomics-workflow-core/Results/Nanoseq/run1/SampleSheet_20220722_2139_MN19452_FAQ74537_830f0db9.csv", \
 "--input_path", "s3://czb-seqbot/nanopore/220722_MN19452_0090_FAQ74537/BC-GF_ICLV-etOH_ICLV-bead_IDLV-bead/20220722_2139_MN19452_FAQ74537_830f0db9/fast5/", \
 "--outdir","s3://genomics-workflow-core/Results/Nanoseq/run1" "
+```
+
+# options with basecalling but no demultiplexing on 16S samples with GPU and sup (super-accurate basecalling) model
+# output one fastq file only
+#"--flowcell", "FLO-FLG001", \
+#"--kit", "SQK-LSK109", \
+```{bash}
+aws batch submit-job \
+    --job-name nf-nanoseq-16S \
+    --job-queue priority-maf-pipelines \
+    --job-definition nextflow-production \
+    --container-overrides command="s3://nextflow-pipelines/nf-nanoseq, \
+"-profile", "docker", \
+"--guppy_gpu", "true", \
+"--protocol", "DNA", \
+"--guppy_config", "dna_r9.4.1_450bps_sup.cfg", \
+"--guppy_model","template_r9.4.1_450bps_sup.jsn", \
+"--skip_demultiplexing", "true", \
+"--trim_barcodes", "false", \
+"--output_demultiplex_fast5", "false", \
+"--skip_alignment", "true", \
+"--skip_quantification", "true", \
+"--skip_fusion_analysis", "true", \
+"--skip_modification_analysis", "true", \
+"--input", "s3://maf-sequencing/nanopore/220914_Flongle16S_ALB873/no_sample/220914_2335_MC-114227_ALB873_558bf20f/samplesheet_220914_Flongle16S_ALB873.csv", \
+"--input_path", "s3://maf-sequencing/nanopore/220914_Flongle16S_ALB873/no_sample/220914_2335_MC-114227_ALB873_558bf20f/fast5/", \
+"--outdir","s3://genomics-workflow-core/Results/Nanoseq/220914_Flongle16S_ALB873" "
 ```

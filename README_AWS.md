@@ -38,7 +38,7 @@ aws batch submit-job \
     --job-name nf-nanoseq-gpu \
     --job-queue priority-maf-pipelines \
     --job-definition nextflow-production \
-    --container-overrides command="s3://nextflow-pipelines/nf-nanoseq, \
+    --container-overrides command="FischbachLab/nf-nanoseq, \
 "-profile", "docker", \
 "--guppy_gpu", "true",\
 "--guppy_cpu_threads", "1", \
@@ -69,7 +69,7 @@ aws batch submit-job \
     --job-name nf-nanoseq-16S \
     --job-queue priority-maf-pipelines \
     --job-definition nextflow-production \
-    --container-overrides command="s3://nextflow-pipelines/nf-nanoseq, \
+    --container-overrides command="FischbachLab/nf-nanoseq, \
 "-profile", "docker", \
 "--guppy_gpu", "true", \
 "--protocol", "DNA", \
@@ -88,12 +88,14 @@ aws batch submit-job \
 ```
 
 # Guppy v6.4.2 with the new flowcell and kit
+# Run from github repo with
 ```{bash}
 aws batch submit-job \
     --job-name nf-nanoseq-16Spilot \
     --job-queue priority-maf-pipelines \
     --job-definition nextflow-production \
-    --container-overrides command="s3://nextflow-pipelines/nf-nanoseq, \
+    --container-overrides command="FischbachLab/nf-nanoseq, \
+"-r","Guppy-6.4.2",\
 "-profile", "docker", \
 "--guppy_gpu", "true", \
 "--protocol", "DNA", \

@@ -2,7 +2,9 @@ process GUPPY {
     label 'process_medium'
 
     if (params.guppy_gpu) {
-        container = 'genomicpariscentre/guppy-gpu:5.0.16'
+        //container = 'genomicpariscentre/guppy-gpu:5.0.16'
+        // upgraded to v6.4.2 on Dec. 14, 2022
+        container = 'genomicpariscentre/guppy-gpu:latest'
         clusterOptions = params.gpu_cluster_options
     } else {
         container = 'genomicpariscentre/guppy:5.0.16'
@@ -29,7 +31,7 @@ process GUPPY {
     def config   = "--flowcell $params.flowcell --kit $params.kit"
     if (params.guppy_config) config = file(params.guppy_config).exists() ? "--config ./$guppy_config" : "--config $params.guppy_config"
     def model    = ""
-    if (params.guppy_model)  model  = file(params.guppy_model).exists() ? "--model ./$guppy_model" : "--model $params.guppy_model"
+    if (params.guppy_model)  model  = file(params.guppy_model).exists() ? "--model_file ./$guppy_model" : "--model_file $params.guppy_model"
     """
     guppy_basecaller \\
         --input_path $fast5_dir_path \\
@@ -63,4 +65,3 @@ process GUPPY {
     fi
     """
 }
-

@@ -86,3 +86,29 @@ aws batch submit-job \
 "--input_path", "s3://maf-sequencing/nanopore/220914_Flongle16S_ALB873/no_sample/220914_2335_MC-114227_ALB873_558bf20f/fast5/", \
 "--outdir","s3://genomics-workflow-core/Results/Nanoseq/220914_Flongle16S_ALB873" "
 ```
+
+# Guppy v6.4.2 with the new flowcell and kit
+```{bash}
+aws batch submit-job \
+    --job-name nf-nanoseq-16Spilot \
+    --job-queue priority-maf-pipelines \
+    --job-definition nextflow-production \
+    --container-overrides command="s3://nextflow-pipelines/nf-nanoseq, \
+"-profile", "docker", \
+"--guppy_gpu", "true", \
+"--protocol", "DNA", \
+"--flowcell", "FLO-FLG114", \
+"--kit", "SQK-LSK114", \
+"--guppy_config", "dna_r10.4.1_e8.2_400bps_sup.cfg", \
+"--guppy_model","template_r10.4.1_e8.2_400bps_sup.jsn", \
+"--skip_demultiplexing", "true", \
+"--trim_barcodes", "false", \
+"--output_demultiplex_fast5", "false", \
+"--skip_alignment", "true", \
+"--skip_quantification", "true", \
+"--skip_fusion_analysis", "true", \
+"--skip_modification_analysis", "true", \
+"--input", "s3://genomics-workflow-core/Results/Nanoseq/20221211_Flongle10_4_1_pilot/20221214_16Spilot.csv", \
+"--input_path", "s3://maf-sequencing/nanopore/Nathan_Johns/20221211_FlongleTest/20221211_Flongle10_4_1_pilot/no_sample/20221212_0008_MN37738_ANV909_5a4e9ab8/fast5/", \
+"--outdir","s3://genomics-workflow-core/Results/Nanoseq/20221211_Flongle10_4_1_pilot_400bps_sup" "
+```

@@ -88,7 +88,7 @@ aws batch submit-job \
 ```
 
 # Guppy v6.4.2 with the new flowcell and kit
-# Run from github repo with Guppy-6.4.2 branch
+### Nathan's full length 16S samples
 ```{bash}
 aws batch submit-job \
     --job-name nf-nanoseq-16Spilot \

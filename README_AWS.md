@@ -114,3 +114,33 @@ aws batch submit-job \
 "--input_path", "s3://maf-sequencing/nanopore/Nathan_Johns/20221211_FlongleTest/20221211_Flongle10_4_1_pilot/no_sample/20221212_0008_MN37738_ANV909_5a4e9ab8/fast5/", \
 "--outdir","s3://genomics-workflow-core/Results/Nanoseq/20221211_Flongle10_4_1_pilot_400bps_sup" "
 ```
+
+# Run from github repo with Guppy-6.4.2 branch
+### MITI job example
+```{bash}
+aws batch submit-job \
+    --job-name nf-nanoseq-MITI \
+    --job-queue priority-maf-pipelines \
+    --job-definition nextflow-production \
+    --container-overrides command="FischbachLab/nanoseq, \
+"-r","Guppy-6.4.2", \
+"-profile","docker",\
+"--guppy_gpu","true",\
+"--protocol","DNA",\
+"--flowcell","FLO-MIN114", \
+"--kit", "SQK-NBD114-24", \
+"--barcode_kit", "EXP-NBD104", \
+"--guppy_config","dna_r10.4.1_e8.2_260bps_sup.cfg",\
+"--guppy_model","template_r10.4.1_e8.2_260bps_sup.jsn",\
+"--run_nanolyse", "true", \
+"--skip_demultiplexing","false",\
+"--trim_barcodes","false",\
+"--output_demultiplex_fast5","false",\
+"--skip_alignment","true",\
+"--skip_quantification","true",\
+"--skip_fusion_analysis","true",\
+"--skip_modification_analysis","true",\
+"--input","s3://maf-sequencing/nanopore/MITI/221216_MC114227-R10_MITI-HA-013_FAV27342/224_201_222_116_118_128_236_262/20221216_1710_MC-114227_FAV27342_d64e17c4/samplesheet_221216_MC114227-R10_MITI-HA-013_FAV27342.csv",\
+"--input_path","s3://maf-sequencing/nanopore/MITI/221216_MC114227-R10_MITI-HA-013_FAV27342/224_201_222_116_118_128_236_262/20221216_1710_MC-114227_FAV27342_d64e17c4/fast5/",\
+"--outdir","s3://genomics-workflow-core/Results/Nanoseq/test" "
+```

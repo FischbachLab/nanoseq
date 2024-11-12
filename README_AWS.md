@@ -1,4 +1,4 @@
-Hello world script
+README for AWS 
 ====================
 
 A simple test script showing the nanoseq pipeline for the Nextflow framework on aws.
@@ -116,7 +116,7 @@ aws batch submit-job \
 ```
 
 # Run from github repo with Guppy-6.4.2 branch
-### MITI job example
+### MITI-001 job example
 ```{bash}
 aws batch submit-job \
     --job-name nf-nanoseq-MITI \
@@ -143,4 +143,34 @@ aws batch submit-job \
 "--input","s3://maf-sequencing/nanopore/MITI/221216_MC114227-R10_MITI-HA-013_FAV27342/224_201_222_116_118_128_236_262/20221216_1710_MC-114227_FAV27342_d64e17c4/samplesheet_221216_MC114227-R10_MITI-HA-013_FAV27342.csv",\
 "--input_path","s3://maf-sequencing/nanopore/MITI/221216_MC114227-R10_MITI-HA-013_FAV27342/224_201_222_116_118_128_236_262/20221216_1710_MC-114227_FAV27342_d64e17c4/fast5/",\
 "--outdir","s3://genomics-workflow-core/Results/Nanoseq/test" "
+```
+
+# Run from github repo with Guppy-6.4.2 branch
+### MITI-002 job example with 96-barcode kit
+```{bash}
+aws batch submit-job \
+    --job-name nf-nanoseq-MITI002 \
+    --job-queue priority-maf-pipelines \
+    --job-definition nextflow-production \
+    --container-overrides command="FischbachLab/nanoseq, \
+"-r","Guppy-6.4.2", \
+"-profile","docker",\
+"--guppy_gpu","true",\
+"--protocol","DNA",\
+"--flowcell","FLO-MIN114", \
+"--kit", "SQK-NBD114-96", \
+"--barcode_kit", "SQK-NBD114-96", \
+"--guppy_config","dna_r10.4.1_e8.2_260bps_sup.cfg",\
+"--guppy_model","template_r10.4.1_e8.2_260bps_sup.jsn",\
+"--run_nanolyse", "true", \
+"--skip_demultiplexing","false",\
+"--trim_barcodes","false",\
+"--output_demultiplex_fast5","false",\
+"--skip_alignment","true",\
+"--skip_quantification","true",\
+"--skip_fusion_analysis","true",\
+"--skip_modification_analysis","true",\
+"--input","s3://maf-sequencing/nanopore/MITI/20241011_M002-TN-WGS_FAW66355/003_004_013_034_315_334_349_350_425_452_459_472_499_346_339_466_470_TN486_TN487_TN491_TN493/20241011_2359_MC-114227_FAW66355_8561e658/samplesheet_20241021_M002-TN-WGS_FAW66355.csv",\
+"--input_path","s3://maf-sequencing/nanopore/MITI/20241011_M002-TN-WGS_FAW66355/003_004_013_034_315_334_349_350_425_452_459_472_499_346_339_466_470_TN486_TN487_TN491_TN493/20241011_2359_MC-114227_FAW66355_8561e658/fast5/",\
+"--outdir","s3://genomics-workflow-core/Results/Nanoseq/MITI-002/20241011_M002-TN-WGS_FAW66355-test" "
 ```
